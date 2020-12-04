@@ -1,7 +1,7 @@
 import React from 'react';
-import {IAnnotaion} from '../../store/types';
+import {IAnnotation} from '../../store/types';
 
-interface Props extends Omit<IAnnotaion, 'id'> {
+interface Props extends Omit<IAnnotation, 'id'> {
   onClick?: () => void;
   bgColour?: string;
 }

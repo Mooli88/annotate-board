@@ -1,7 +1,7 @@
 import {createStore} from 'react-hookstore';
-import {AnotationActionTypes, IAnnotaion} from './types';
+import {AnnotationActionTypes, IAnnotation} from './types';
 
-const AnnotationsReducer = (state: IAnnotaion[] = [], action: AnotationActionTypes) => {
+const AnnotationsReducer = (state: IAnnotation[] = [], action: AnnotationActionTypes) => {
   switch (action.type) {
     case 'ADD':
       return [...state, {...action.payload}];
@@ -29,8 +29,8 @@ const AnnotationsReducer = (state: IAnnotaion[] = [], action: AnotationActionTyp
   }
 };
 
-const initStore = (initVals: IAnnotaion[] = []) => {
-  createStore<IAnnotaion[]>('annotations', initVals, AnnotationsReducer);
+const initStore = (initVals: IAnnotation[] = []) => {
+  createStore<IAnnotation[]>('annotations', initVals, AnnotationsReducer);
 };
 
 export default initStore;

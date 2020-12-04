@@ -4,14 +4,14 @@ import React from 'react';
 import {useStore} from 'react-hookstore';
 import {resetAnnotation} from '../../store/actions';
 import annotationsStore from '../../store/annotations';
-import {AnotationActionTypes, IAnnotaion} from '../../store/types';
+import {AnnotationActionTypes, IAnnotation} from '../../store/types';
 import Board from './Board';
 
 annotationsStore([]);
 const {result} = renderHook(() =>
-  useStore<IAnnotaion[], AnotationActionTypes>('annotations')
+  useStore<IAnnotation[], AnnotationActionTypes>('annotations')
 );
-const [, dispathAnnotationStore] = result.current;
+const [, dispatchAnnotationStore] = result.current;
 
 describe('shallow test Board', () => {
   test('render board', () => {
@@ -24,7 +24,7 @@ describe('shallow test Board', () => {
 
 describe('test Board', () => {
   afterEach(() => {
-    act(() => dispathAnnotationStore(resetAnnotation()));
+    act(() => dispatchAnnotationStore(resetAnnotation()));
   });
 
   test('empty board', () => {
@@ -33,9 +33,9 @@ describe('test Board', () => {
     expect(boardEl).toBeEmptyDOMElement();
   });
 
-  test('render init annoations on board', async () => {
+  test('render init annotations on board', async () => {
     act(() => {
-      dispathAnnotationStore(
+      dispatchAnnotationStore(
         resetAnnotation([
           {x: 1, y: 80, id: `annotation_${1}x${80}`, note: ''},
           {x: 100, y: 80, id: `annotation_${100}x${80}`, note: ''},

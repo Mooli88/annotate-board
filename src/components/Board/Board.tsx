@@ -1,6 +1,6 @@
 import React, {ReactElement, useRef, useState} from 'react';
 import {useStore} from 'react-hookstore';
-import {IAnnotaion} from '../../store/types';
+import {IAnnotation} from '../../store/types';
 import Annotation from '../Annotation/Annotation';
 
 interface Props {}
@@ -24,7 +24,7 @@ const baseStyle: React.CSSProperties = {
 };
 
 const Board = (props: Props) => {
-  const [annotationStore, setAnnotationStore] = useStore<IAnnotaion[]>('annotations');
+  const [annotationStore, setAnnotationStore] = useStore<IAnnotation[]>('annotations');
   const [placeHolderState, setPlaceholderState] = useState<ReactElement>();
   const boardRef = useRef<HTMLDivElement>(null);
 

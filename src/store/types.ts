@@ -1,44 +1,34 @@
-export interface IAnnotaion {
+export interface IAnnotation {
   id: string;
   x: number;
   y: number;
   note: string;
 }
-// export interface IAnnotaionAction {
-//   type: TActionType;
-//   payload: IAnnotaionAction['type'] extends 'REMOVE'
-//     ? Pick<IAnnotaion, 'id'>
-//     : IAnnotaionAction['type'] extends 'UPDATE'
-//     ? Pick<IAnnotaion, 'id' | 'note'>
-//     : IAnnotaionAction['type'] extends 'RESET'
-//     ? IAnnotaion[] | null | undefined
-//     : IAnnotaion;
-// }
 
 export const ADD_ANNOTATION = 'ADD';
 export const REMOVE_ANNOTATION = 'REMOVE';
 export const UPDATE_ANNOTATION = 'UPDATE';
 export const RESET_ANNOTATION = 'RESET';
 
-interface AddAnitaion {
+interface AddAnnotation {
   type: typeof ADD_ANNOTATION;
-  payload: IAnnotaion;
+  payload: IAnnotation;
 }
-interface RemoveAnitaion {
+interface RemoveAnnotation {
   type: typeof REMOVE_ANNOTATION;
-  payload: Pick<IAnnotaion, 'id'>;
+  payload: Pick<IAnnotation, 'id'>;
 }
-interface UpdateAnitaion {
+interface UpdateAnnotation {
   type: typeof UPDATE_ANNOTATION;
-  payload: Pick<IAnnotaion, 'id' | 'note'>;
+  payload: Pick<IAnnotation, 'id' | 'note'>;
 }
-interface ResetAnitaion {
+interface ResetAnnotation {
   type: typeof RESET_ANNOTATION;
-  payload: IAnnotaion[];
+  payload: IAnnotation[];
 }
 
-export type AnotationActionTypes =
-  | AddAnitaion
-  | RemoveAnitaion
-  | UpdateAnitaion
-  | ResetAnitaion;
+export type AnnotationActionTypes =
+  | AddAnnotation
+  | RemoveAnnotation
+  | UpdateAnnotation
+  | ResetAnnotation;
