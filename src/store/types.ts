@@ -10,19 +10,19 @@ export const REMOVE_ANNOTATION = 'REMOVE';
 export const UPDATE_ANNOTATION = 'UPDATE';
 export const RESET_ANNOTATION = 'RESET';
 
-interface AddAnnotation {
+export interface AddAnnotation {
   type: typeof ADD_ANNOTATION;
   payload: IAnnotation;
 }
-interface RemoveAnnotation {
+export interface RemoveAnnotation {
   type: typeof REMOVE_ANNOTATION;
   payload: Pick<IAnnotation, 'id'>;
 }
-interface UpdateAnnotation {
+export interface UpdateAnnotation {
   type: typeof UPDATE_ANNOTATION;
   payload: Pick<IAnnotation, 'id' | 'note'>;
 }
-interface ResetAnnotation {
+export interface ResetAnnotation {
   type: typeof RESET_ANNOTATION;
   payload: IAnnotation[];
 }

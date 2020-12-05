@@ -1,7 +1,7 @@
 import React from 'react';
 import {IAnnotation} from '../../store/types';
 
-interface Props extends Omit<IAnnotation, 'id'> {
+interface Props extends IAnnotation {
   onClick?: () => void;
   bgColour?: string;
 }
@@ -25,10 +25,10 @@ const baseStyle: React.CSSProperties = {
   width: 40,
 };
 
-const Annotation = ({x, y, note, bgColour = '#bec3c9', onClick}: Props) => {
+const Annotation = ({id, x, y, note, bgColour = '#bec3c9', onClick}: Props) => {
   return (
     <div
-      data-testid={`annotation_${x}x${y}`}
+      data-testid={`annotation_${id}`}
       style={{
         ...baseStyle,
         top: y,

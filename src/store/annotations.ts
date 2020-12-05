@@ -30,7 +30,11 @@ const AnnotationsReducer = (state: IAnnotation[] = [], action: AnnotationActionT
 };
 
 const initStore = (initVals: IAnnotation[] = []) => {
-  createStore<IAnnotation[]>('annotations', initVals, AnnotationsReducer);
+  createStore<IAnnotation[], AnnotationActionTypes>(
+    'annotations',
+    initVals,
+    AnnotationsReducer
+  );
 };
 
 export default initStore;

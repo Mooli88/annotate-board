@@ -1,6 +1,6 @@
 import React, {useRef} from 'react';
 
-interface Props {
+export interface Props {
   visible: boolean;
   onSubmit: (note: string) => void;
   position?: 'top' | 'bottom';
@@ -14,7 +14,7 @@ const NoteEditor = ({visible, onSubmit, value = '', position = 'top'}: Props) =>
     inputRef.current!.value = '';
   };
   return (
-    <div data-testid="note-editor" style={{display: visible ? 'block ' : 'none'}}>
+    <div data-testid="note-editor-el" style={{display: visible ? 'block ' : 'none'}}>
       <div>
         <label htmlFor="noteEditor">Note</label>
         <input

@@ -1,9 +1,12 @@
-import React, {ReactElement, useRef, useState} from 'react';
+import React, {ReactElement, useEffect, useRef, useState} from 'react';
 import {useStore} from 'react-hookstore';
-import {IAnnotation} from '../../store/types';
+import {addAnnotation} from '../../store/actions';
+import {AddAnnotation, IAnnotation, UpdateAnnotation} from '../../store/types';
 import Annotation from '../Annotation/Annotation';
 
-interface Props {}
+interface Props {
+  onClick: (action: AddAnnotation | UpdateAnnotation) => void;
+}
 
 const calcAnnotationPosition = (pos: number, space: number) => {
   const border = 2;
@@ -23,8 +26,8 @@ const baseStyle: React.CSSProperties = {
   border: '2px solid',
 };
 
-const Board = (props: Props) => {
-  const [annotationStore, setAnnotationStore] = useStore<IAnnotation[]>('annotations');
+const Board = ({onClick}: Props) => {
+  const [annotationStore] = useStore<IAnnotation[]>('annotations');
   const [placeHolderState, setPlaceholderState] = useState<ReactElement>();
   const boardRef = useRef<HTMLDivElement>(null);
 
@@ -35,19 +38,32 @@ const Board = (props: Props) => {
       calcAnnotationPosition(posY, clientHeight),
     ];
 
-    setPlaceholderState(<Annotation bgColour="#ffeb00b0" note="" {...{x, y}} />);
+    setPlaceholderState(
+      <Annotation id="placeholder" bgColour="#ffeb00b0" note="" {...{x, y}} />
+    );
+    return [x, y];
   };
+
+  useEffect(() => {}, [annotationStore]);
 
   const onBoardClick = ({
     clientX,
     clientY,
   }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    setPlaceholder(clientX, clientY);
+    const [x, y] = setPlaceholder(clientX, clientY);
+    onClick(
+      addAnnotation({
+        id: `${x}x${y}`,
+        x,
+        y,
+        note: '',
+      })
+    );
   };
   //TODO: useMemo
   const renderAnnotations = () =>
     annotationStore?.map(({id, ...annotation}) => (
-      <Annotation key={id} {...annotation} />
+      <Annotation key={id} id={id} {...annotation} />
     ));
 
   return (

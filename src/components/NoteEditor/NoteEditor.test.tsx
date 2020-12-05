@@ -1,18 +1,17 @@
-import {fireEvent} from '@testing-library/dom';
-import {render} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import React from 'react';
 import NoteEditor from './NoteEditor';
 
 test('hidden by default', () => {
   const {getByTestId} = render(<NoteEditor visible={false} onSubmit={() => {}} />);
-  const testEditorEl = getByTestId('note-editor');
+  const testEditorEl = getByTestId('note-editor-el');
 
   expect(testEditorEl).not.toBeVisible();
 });
 
 test('show if visible set to true', () => {
   const {getByTestId, rerender} = render(<NoteEditor visible onSubmit={() => {}} />);
-  const testEditorEl = getByTestId('note-editor');
+  const testEditorEl = getByTestId('note-editor-el');
 
   expect(testEditorEl).toBeVisible();
 

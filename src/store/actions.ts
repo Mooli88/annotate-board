@@ -1,13 +1,15 @@
 import {
+  AddAnnotation,
   ADD_ANNOTATION,
   AnnotationActionTypes,
   IAnnotation,
   REMOVE_ANNOTATION,
   RESET_ANNOTATION,
+  UpdateAnnotation,
   UPDATE_ANNOTATION,
 } from './types';
 
-export function AddAnnotation(payload: IAnnotation): AnnotationActionTypes {
+export function addAnnotation(payload: IAnnotation): AddAnnotation {
   return {
     type: ADD_ANNOTATION,
     payload,
@@ -23,7 +25,7 @@ export function removeAnnotation(
 }
 export function updateAnnotation(
   payload: Pick<IAnnotation, 'id' | 'note'>
-): AnnotationActionTypes {
+): UpdateAnnotation {
   return {
     type: UPDATE_ANNOTATION,
     payload,

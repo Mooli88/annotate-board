@@ -1,11 +1,11 @@
 import React from 'react';
 import './App.css';
-import Board from './components/Board/Board';
+import AnnotateBoard from './domain/AnnotateBoard/AnnotateBoard';
 
 function App() {
   return (
     <div className="App">
-      <Board />
+      <AnnotateBoard />
     </div>
   );
 }
