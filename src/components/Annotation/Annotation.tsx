@@ -1,8 +1,9 @@
-import React from 'react';
-import {IAnnotation} from '../../store/types';
+import React, {useState} from 'react';
+import {IAnnotation, UpdateAnnotation} from '../../store/types';
 
 interface Props extends IAnnotation {
-  onClick?: () => void;
+  onClick?: (d: UpdateAnnotation['payload']) => void;
+  // isHovered?: (id: string) => void;
   bgColour?: string;
 }
 
@@ -26,16 +27,24 @@ const baseStyle: React.CSSProperties = {
 };
 
 const Annotation = ({id, x, y, note, bgColour = '#bec3c9', onClick}: Props) => {
+  const [noteState, setNoteState] = useState(false);
   return (
-    <div
-      data-testid={`annotation_${id}`}
-      style={{
-        ...baseStyle,
-        top: y,
-        left: x,
-        backgroundColor: bgColour,
-      }}
-    ></div>
+    <div onMouseOver={() => setNoteState(true)} onMouseOut={() => setNoteState(false)}>
+      <div
+        data-testid={`annotation_${id}`}
+        style={{
+          ...baseStyle,
+          top: y,
+          left: x,
+          backgroundColor: bgColour,
+        }}
+        onClick={(e) => {
+          e.stopPropagation();
+          onClick && onClick({id, note});
+        }}
+      ></div>
+      <div style={{display: noteState ? 'block' : 'none'}}>{note}</div>
+    </div>
   );
 };
 

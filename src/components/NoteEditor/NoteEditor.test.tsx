@@ -4,20 +4,20 @@ import NoteEditor from './NoteEditor';
 
 test('hidden by default', () => {
   const {getByTestId} = render(<NoteEditor visible={false} onSubmit={() => {}} />);
-  const testEditorEl = getByTestId('note-editor-el');
+  const noteEditorEl = getByTestId('note-editor-el');
 
-  expect(testEditorEl).not.toBeVisible();
+  expect(noteEditorEl).not.toBeVisible();
 });
 
 test('show if visible set to true', () => {
   const {getByTestId, rerender} = render(<NoteEditor visible onSubmit={() => {}} />);
-  const testEditorEl = getByTestId('note-editor-el');
+  const noteEditorEl = getByTestId('note-editor-el');
 
-  expect(testEditorEl).toBeVisible();
+  expect(noteEditorEl).toBeVisible();
 
   rerender(<NoteEditor visible={false} onSubmit={() => {}} />);
 
-  expect(testEditorEl).not.toBeVisible();
+  expect(noteEditorEl).not.toBeVisible();
 });
 
 test('init with default value', () => {

@@ -1,6 +1,6 @@
 import React, {ReactElement, useEffect, useRef, useState} from 'react';
 import {useStore} from 'react-hookstore';
-import {addAnnotation} from '../../store/actions';
+import {addAnnotation, updateAnnotation} from '../../store/actions';
 import {AddAnnotation, IAnnotation, UpdateAnnotation} from '../../store/types';
 import Annotation from '../Annotation/Annotation';
 
@@ -19,6 +19,21 @@ const calcAnnotationPosition = (pos: number, space: number) => {
   return pos;
 };
 
+const collisionDetection = (
+  {x, y}: {x: number; y: number},
+  items: IAnnotation[]
+): boolean => {
+  if (items.length === 0) return true;
+  return (
+    items.filter((item) => {
+      const {x: itemX, y: itemY} = item;
+      const xOnRow = itemX - 40 > x || itemX + 40 < x;
+      const yOnColumn = itemY - 40 > y || itemY + 40 < y;
+      return !(xOnRow || yOnColumn);
+    }).length === 0
+  );
+};
+
 const baseStyle: React.CSSProperties = {
   position: 'relative',
   height: '80vh',
@@ -30,6 +45,7 @@ const Board = ({onClick}: Props) => {
   const [annotationStore] = useStore<IAnnotation[]>('annotations');
   const [placeHolderState, setPlaceholderState] = useState<ReactElement>();
   const boardRef = useRef<HTMLDivElement>(null);
+  const disabled = useRef(false);
 
   const setPlaceholder = (posX: number, posY: number) => {
     const {clientHeight, clientWidth} = boardRef.current!;
@@ -37,11 +53,18 @@ const Board = ({onClick}: Props) => {
       calcAnnotationPosition(posX, clientWidth),
       calcAnnotationPosition(posY, clientHeight),
     ];
-
-    setPlaceholderState(
-      <Annotation id="placeholder" bgColour="#ffeb00b0" note="" {...{x, y}} />
-    );
-    return [x, y];
+    console.log('🚀 ~ file: Board.tsx ~ line 38 ~ setPlaceholder ~ x, y', x, y);
+    const isValid = collisionDetection({x, y}, annotationStore);
+    if (isValid) {
+      console.log('🚀 ~ file: Board.tsx ~ line 61 ~ setPlaceholder ~ isValid', isValid);
+      setPlaceholderState(
+        <Annotation id="placeholder" bgColour="#ffeb00b0" note="" {...{x, y}} />
+      );
+      return (cb: ([x, y]: [number, number]) => void) => {
+        cb([x, y]);
+      };
+    }
+    return () => {};
   };
 
   useEffect(() => {}, [annotationStore]);
@@ -50,20 +73,28 @@ const Board = ({onClick}: Props) => {
     clientX,
     clientY,
   }: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const [x, y] = setPlaceholder(clientX, clientY);
-    onClick(
-      addAnnotation({
-        id: `${x}x${y}`,
-        x,
-        y,
-        note: '',
-      })
-    );
+    setPlaceholder(
+      clientX,
+      clientY
+    )(([x, y]) => {
+      onClick(
+        addAnnotation({
+          id: `${x}x${y}`,
+          x,
+          y,
+          note: '',
+        })
+      );
+    });
+  };
+
+  const editAnnotation = (data: UpdateAnnotation['payload']) => {
+    onClick(updateAnnotation(data));
   };
   //TODO: useMemo
   const renderAnnotations = () =>
     annotationStore?.map(({id, ...annotation}) => (
-      <Annotation key={id} id={id} {...annotation} />
+      <Annotation key={id} id={id} {...annotation} onClick={editAnnotation} />
     ));
 
   return (

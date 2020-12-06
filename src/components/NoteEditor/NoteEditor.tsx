@@ -14,7 +14,10 @@ const NoteEditor = ({visible, onSubmit, value = '', position = 'top'}: Props) =>
     inputRef.current!.value = '';
   };
   return (
-    <div data-testid="note-editor-el" style={{display: visible ? 'block ' : 'none'}}>
+    <div
+      data-testid="note-editor-el"
+      style={{display: visible ? 'block ' : 'none', position: 'fixed'}}
+    >
       <div>
         <label htmlFor="noteEditor">Note</label>
         <input

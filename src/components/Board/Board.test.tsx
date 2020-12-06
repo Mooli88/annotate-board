@@ -4,13 +4,7 @@ import React from 'react';
 import {useStore} from 'react-hookstore';
 import {resetAnnotation} from '../../store/actions';
 import annotationsStore from '../../store/annotations';
-import {
-  AddAnnotation,
-  AnnotationActionTypes,
-  IAnnotation,
-  UpdateAnnotation,
-  UPDATE_ANNOTATION,
-} from '../../store/types';
+import {AddAnnotation, AnnotationActionTypes, IAnnotation} from '../../store/types';
 import Board from './Board';
 
 annotationsStore([]);
@@ -32,7 +26,6 @@ describe('shallow test Board', () => {
       id: `${2}x${2}`,
       x: 2,
       y: 2,
-      note: '',
     };
 
     const onClick = jest.fn((action) => {
@@ -80,21 +73,14 @@ describe('test Board', () => {
     expect(placeholderEl).toBeInTheDocument();
   });
 
-  test('pass UPDATE action when clicking on existing Annotate', () => {
-    const expectedRes: UpdateAnnotation['payload'] = {
-      id: `${2}x${2}`,
-      note: 'update me',
-    };
-
-    const onClick = jest.fn((action) => {
-      expect(action.type).toBe(UPDATE_ANNOTATION);
-      expect(action.payload).toMatchObject(expectedRes);
-    });
-
+  test('Disable the option for adding Annotate if one already exist on the same area', () => {
+    const onClick = jest.fn();
     const {getByTestId} = render(<Board onClick={onClick} />);
-    const boardEl = getByTestId('board-el');
-    fireEvent.click(boardEl);
 
-    expect(onClick).toBeCalledTimes(1);
+    fireEvent.click(getByTestId('board-el'));
+
+    // const placeholderEl = getByTestId('annotation_placeholder');
+
+    expect(onClick).not.toBeCalled();
   });
 });

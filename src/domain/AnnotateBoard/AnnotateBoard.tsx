@@ -71,6 +71,11 @@ const AnnotateBoard = (props: Props) => {
       type,
       payload: {
         onSubmit(note) {
+          console.log('🚀 ~ file: AnnotateBoard.tsx ~ line 77 ~ onSubmit ~ note', note);
+          console.log(
+            '🚀 ~ file: AnnotateBoard.tsx ~ line 77 ~ onSubmit ~ payload',
+            payload
+          );
           const action = {type, payload: {...payload, note}} as AnnotateActionType;
           dispatchAnnotationStore(action);
         },
@@ -79,7 +84,7 @@ const AnnotateBoard = (props: Props) => {
   };
 
   return (
-    <div>
+    <div data-testid="annotate-board">
       <NoteEditor {...editorState} />
       <Board onClick={setNote} />
     </div>

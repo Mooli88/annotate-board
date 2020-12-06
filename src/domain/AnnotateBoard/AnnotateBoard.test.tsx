@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react';
+import {fireEvent, render} from '@testing-library/react';
 import {renderHook} from '@testing-library/react-hooks';
 import React from 'react';
 import {useStore} from 'react-hookstore';
@@ -10,8 +10,17 @@ annotationsStore([]);
 const {result} = renderHook(() =>
   useStore<IAnnotation[], AnnotationActionTypes>('annotations')
 );
-test('mount NoteEditor and Board', () => {
+
+it('mount NoteEditor and Board', () => {
   const {getByTestId} = render(<AnnotateBoard />);
   getByTestId('board-el');
   getByTestId('note-editor-el');
+});
+
+it('should open NoteEditor when clicking Board', () => {
+  const {getByTestId, getByDisplayValue} = render(<AnnotateBoard />);
+
+  const noteEditorEl = getByTestId('note-editor-el');
+  fireEvent.click(getByTestId('board-el'));
+  expect(noteEditorEl).toBeVisible();
 });
