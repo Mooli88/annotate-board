@@ -24,14 +24,13 @@ const collisionDetection = (
   items: IAnnotation[]
 ): boolean => {
   if (items.length === 0) return true;
-  return (
-    items.filter((item) => {
-      const {x: itemX, y: itemY} = item;
-      const xOnRow = itemX - 40 > x || itemX + 40 < x;
-      const yOnColumn = itemY - 40 > y || itemY + 40 < y;
-      return !(xOnRow || yOnColumn);
-    }).length === 0
-  );
+  return !items.some((item) => {
+    const {x: itemX, y: itemY} = item;
+    const xOnColumn = x > itemX ? x - 40 < itemX : x + 40 > itemX;
+    const yOnRow = y > itemY ? y - 40 < itemY : y + 40 > itemY;
+
+    return xOnColumn && yOnRow;
+  });
 };
 
 const baseStyle: React.CSSProperties = {
@@ -45,7 +44,6 @@ const Board = ({onClick}: Props) => {
   const [annotationStore] = useStore<IAnnotation[]>('annotations');
   const [placeHolderState, setPlaceholderState] = useState<ReactElement>();
   const boardRef = useRef<HTMLDivElement>(null);
-  const disabled = useRef(false);
 
   const setPlaceholder = (posX: number, posY: number) => {
     const {clientHeight, clientWidth} = boardRef.current!;
