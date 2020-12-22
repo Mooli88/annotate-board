@@ -96,7 +96,7 @@ const Board = ({onClick}: Props) => {
     ));
 
   return (
-    <div ref={boardRef} data-testid="board-el" style={baseStyle} onClick={onBoardClick}>
+    <div ref={boardRef} data-testid="board-el" onClick={onBoardClick}>
       {renderAnnotations()}
       {placeHolderState}
     </div>

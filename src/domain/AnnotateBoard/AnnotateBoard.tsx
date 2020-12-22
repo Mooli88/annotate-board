@@ -84,10 +84,12 @@ const AnnotateBoard = (props: Props) => {
   };
 
   return (
-    <div data-testid="annotate-board">
+    <main data-testid="annotate-board" className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <NoteEditor {...editorState} />
-      <Board onClick={setNote} />
-    </div>
+      <div className="border-4 border-dashed border-gray-200 rounded-lg h-96">
+        <Board onClick={setNote} />
+      </div>
+    </main>
   );
 };
 
